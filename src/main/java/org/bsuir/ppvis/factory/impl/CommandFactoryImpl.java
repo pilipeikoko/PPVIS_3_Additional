@@ -9,44 +9,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandFactoryImpl implements CommandFactory {
+    private final RecipeService recipeService;
 
-    @Override
-    public Command createNavigateToNewRecipeCommand(){
-        return new NavigateToNewRecipe();
+    public CommandFactoryImpl(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
-    @Override
-    public Command createNavigateToContinueCookingCommand() {
-        return new NavigateToContinueCooking();
-    }
+    public Map<String, Command> create() {
+        Map<String, Command> commands = new HashMap<>();
 
-    @Override
-    public Command createNavigateToMainCommand(){
-        return new NavigateToMain();
-    }
+        commands.put("NavigateToNewRecipe", new NavigateToNewRecipe());
+        commands.put("NavigateToMain", new NavigateToMain());
+        commands.put("NavigateToListOfMatchedRecipes", new NavigateToListOfMatchedRecipes(recipeService));
+        commands.put("NavigateToCookingProcess", new NavigateToCookingProcess());
+        commands.put("NavigateToListOfRecipes", new NavigateToListOfRecipes(recipeService));
+        commands.put("NavigateToAddProduct", new NavigateToAddProduct());
+        commands.put("AddProduct", new AddProduct());
+        commands.put("NavigateToContinueCooking", new NavigateToContinueCooking());
 
-    @Override
-    public Command createNavigateToListOfMatchedRecipesCommand(RecipeService recipeService){
-        return new NavigateToListOfMatchedRecipes(recipeService);
-    }
-
-    @Override
-    public Command createNavigateToCookingProcessCommand(){
-        return new NavigateToCookingProcess();
-    }
-
-    @Override
-    public Command createNavigateToListOfRecipesCommand(RecipeService recipeService){
-        return new NavigateToListOfRecipes(recipeService);
-    }
-
-    @Override
-    public Command createNavigateToAddProductCommand(){
-        return new NavigateToAddProduct();
-    }
-
-    @Override
-    public Command createAddProductCommand(){
-        return new AddProduct();
+        return commands;
     }
 }

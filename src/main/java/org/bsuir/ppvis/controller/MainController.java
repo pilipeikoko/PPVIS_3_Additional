@@ -8,19 +8,19 @@ import org.bsuir.ppvis.observer.MainFrameObserver;
 import org.bsuir.ppvis.service.RecipeService;
 import org.bsuir.ppvis.view.MainFrame;
 
+import java.util.Map;
+
 public class MainController implements MainFrameObserver {
-    private final CommandFactory commandFactory;
-    private final RecipeService recipeService;
+    private final Map<String, Command> commands;
     private final MainFrame mainFrame;
     private final UserContext userContext;
 
-    public MainController(MainFrame mainFrame, UserContext context, CommandFactory commandFactory, RecipeService recipeService) {
+    public MainController(MainFrame mainFrame, UserContext context, CommandFactory commandFactory) {
         this.mainFrame = mainFrame;
         mainFrame.attach(this);
 
         this.userContext = context;
-        this.commandFactory = commandFactory;
-        this.recipeService = recipeService;
+        this.commands = commandFactory.create();
 
         navigateToMain();
     }
@@ -96,35 +96,35 @@ public class MainController implements MainFrameObserver {
     }
 
     private void navigateToContinueCooking() {
-        executeCommand(commandFactory.createNavigateToContinueCookingCommand());
+        executeCommand(commands.get("NavigateToContinueCooking"));
     }
 
     private void addProduct() {
-        executeCommand(commandFactory.createAddProductCommand());
+        executeCommand(commands.get("AddProduct"));
     }
 
     private void navigateToMain() {
-        executeCommand(commandFactory.createNavigateToMainCommand());
+        executeCommand(commands.get("NavigateToMain"));
     }
 
     private void navigateToListOfMatchedReceipts() {
-        executeCommand(commandFactory.createNavigateToListOfMatchedRecipesCommand(recipeService));
+        executeCommand(commands.get("NavigateToListOfMatchedRecipes"));
     }
 
     private void navigateToAddProduct() {
-        executeCommand(commandFactory.createNavigateToAddProductCommand());
+        executeCommand(commands.get("NavigateToAddProduct"));
     }
 
     private void navigateToListOfReceipts() {
-        executeCommand(commandFactory.createNavigateToListOfRecipesCommand(recipeService));
+        executeCommand(commands.get("NavigateToListOfRecipes"));
     }
 
     private void navigateToCookingProcess() {
-        executeCommand(commandFactory.createNavigateToCookingProcessCommand());
+        executeCommand(commands.get("NavigateToCookingProcess"));
     }
 
     private void navigateToNewRecipe() {
-        executeCommand(commandFactory.createNavigateToNewRecipeCommand());
+        executeCommand(commands.get("NavigateToNewRecipe"));
     }
 
     private void executeCommand(Command command) {

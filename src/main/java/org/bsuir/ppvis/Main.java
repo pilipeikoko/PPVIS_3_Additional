@@ -68,10 +68,10 @@ public class Main {
 
         MainFrame frame = new ConsoleMainFrame();
         UserContext context = new UserContext();
-        CommandFactory factory = new CommandFactoryImpl();
         RecipeService service = new RecipeServiceImpl(recipeRepository);
+        CommandFactory factory = new CommandFactoryImpl(service);
 
-        new MainController(frame, context, factory, service);
+        new MainController(frame, context, factory);
     }
 
 
