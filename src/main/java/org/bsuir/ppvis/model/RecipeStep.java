@@ -35,9 +35,7 @@ public class RecipeStep {
         this.stepDescription = stepDescription;
     }
 
-    @Override
-    public String toString() {
-
+    public void show(){
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("Product: ");
@@ -48,6 +46,6 @@ public class RecipeStep {
         stringBuilder.append(stepDescription);
         stringBuilder.append("\n");
 
-        return stringBuilder.toString();
+        System.out.println(stringBuilder.toString());
     }
 }

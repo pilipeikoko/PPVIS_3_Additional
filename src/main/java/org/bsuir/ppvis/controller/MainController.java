@@ -1,104 +1,133 @@
 package org.bsuir.ppvis.controller;
 
 import org.bsuir.ppvis.controller.command.Command;
-import org.bsuir.ppvis.factory.impl.CommandFactoryImpl;
+import org.bsuir.ppvis.factory.CommandFactory;
 import org.bsuir.ppvis.model.UserContext;
 import org.bsuir.ppvis.observer.MainFrameEvent;
 import org.bsuir.ppvis.observer.MainFrameObserver;
+import org.bsuir.ppvis.service.RecipeService;
 import org.bsuir.ppvis.view.MainFrame;
-import org.bsuir.ppvis.view.impl.ConsoleMainFrame;
-
-import java.util.Map;
 
 public class MainController implements MainFrameObserver {
-    private final Map<String, Command> commands;
+    private final CommandFactory commandFactory;
+    private final RecipeService recipeService;
     private final MainFrame mainFrame;
     private final UserContext userContext;
 
-    {
-        mainFrame = new ConsoleMainFrame();
+    public MainController(MainFrame mainFrame, UserContext context, CommandFactory commandFactory, RecipeService recipeService) {
+        this.mainFrame = mainFrame;
         mainFrame.attach(this);
-        userContext = new UserContext();
 
-        CommandFactoryImpl factory = new CommandFactoryImpl();
-        commands = factory.create();
-    }
+        this.userContext = context;
+        this.commandFactory = commandFactory;
+        this.recipeService = recipeService;
 
-    public MainController() {
         navigateToMain();
     }
 
     @Override
     public void parameterChanged(MainFrameEvent event) {
         switch (event.getProperty()) {
-            case "mainActionType": {
+            case "shouldShowNewRecipeChoose": {
+                handleNewRecipeChoose();
+                break;
+            }
+            case "shouldShowContinueCooking": {
+                handleContinueCooking();
+                break;
+            }
+            case "shouldShowCookingProcess": {
+                handleCookingProcess();
+                break;
+            }
+            case "shouldShowListOfReceipts": {
+                handleListOfReceipts();
+                break;
+            }
+            case "shouldShowNavigateToAddProduct": {
+                handleNavigateToAddProduct();
+                break;
+            }
+            case "shouldShowAddProduct": {
+                handleAddProduct();
+                break;
+            }
+            case "shouldShowMatchedReceipts": {
+                handleMatchedReceipts();
+                break;
+            }
+            case "shouldShowMain": {
                 handleMainAction();
                 break;
             }
-            case "newRecipeQuestions": {
-                handleNewRecipeQuestions();
-                break;
-            }
-            case "listOfRecipesChosenRecipe": {
-                handleChosenRecipe();
-                break;
-            } case "productAmount":{
-                handleAddProduct();
-            }
         }
     }
 
-    private void handleAddProduct() {
-        commands.get("AddProduct").execute(mainFrame, userContext);
+    private void handleMatchedReceipts() {
+        navigateToListOfMatchedReceipts();
     }
 
-    private void handleChosenRecipe() {
-        commands.get("NavigateToCookingProcess").execute(mainFrame, userContext);
+    private void handleNavigateToAddProduct() {
+        navigateToAddProduct();
+    }
+
+    protected void handleListOfReceipts() {
+        navigateToListOfReceipts();
+    }
+
+    protected void handleCookingProcess() {
+        navigateToCookingProcess();
+    }
+
+    protected void handleContinueCooking() {
+        navigateToContinueCooking();
+    }
+
+    protected void handleNewRecipeChoose() {
+        navigateToNewRecipe();
+    }
+
+    protected void handleMainAction() {
+        navigateToMain();
+    }
+
+    protected void handleAddProduct() {
+        addProduct();
+    }
+
+    private void navigateToContinueCooking() {
+        executeCommand(commandFactory.createNavigateToContinueCookingCommand());
+    }
+
+    private void addProduct() {
+        executeCommand(commandFactory.createAddProductCommand());
     }
 
     private void navigateToMain() {
-        commands.get("NavigateToMain").execute(mainFrame, userContext);
-    }
-
-
-    private void handleNewRecipeQuestions() {
-        if (mainFrame.getNewRecipeQuestions().size() == 2) {
-            navigateToListOfMatchedReceipts();
-        }
+        executeCommand(commandFactory.createNavigateToMainCommand());
     }
 
     private void navigateToListOfMatchedReceipts() {
-        commands.get("NavigateToListOfMatchedRecipes").execute(mainFrame, userContext);
-    }
-
-    private void handleMainAction() {
-        //TODO: get rid of 1 and 2
-        if (mainFrame.getMainActionType() == 1) {
-            navigateToNewRecipe();
-        } else if (mainFrame.getMainActionType() == 2) {
-            navigateToCookingProcess();
-        } else if (mainFrame.getMainActionType() == 3) {
-            navigateToListOfReceipts();
-        } else if (mainFrame.getMainActionType() == 4) {
-            navigateToAddProduct();
-        }
+        executeCommand(commandFactory.createNavigateToListOfMatchedRecipesCommand(recipeService));
     }
 
     private void navigateToAddProduct() {
-        commands.get("NavigateToAddProduct").execute(mainFrame, userContext);
+        executeCommand(commandFactory.createNavigateToAddProductCommand());
     }
 
     private void navigateToListOfReceipts() {
-        commands.get("NavigateToListOfRecipes").execute(mainFrame, userContext);
+        executeCommand(commandFactory.createNavigateToListOfRecipesCommand(recipeService));
     }
 
     private void navigateToCookingProcess() {
-        commands.get("NavigateToCookingProcess").execute(mainFrame, userContext);
+        executeCommand(commandFactory.createNavigateToCookingProcessCommand());
     }
 
     private void navigateToNewRecipe() {
-        commands.get("NavigateToNewRecipe").execute(mainFrame, userContext);
+        executeCommand(commandFactory.createNavigateToNewRecipeCommand());
     }
 
-
+    private void executeCommand(Command command) {
+        command.execute(mainFrame, userContext);
+    }
 }

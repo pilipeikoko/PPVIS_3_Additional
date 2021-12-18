@@ -29,18 +29,13 @@ public class Recipe {
     public boolean isMatch(List<BaseQuestion> questions) {
         for (QuestionWithOneAnswer question : this.questions) {
             if (questions.stream().anyMatch(x -> x.getDescription().equals(question.getDescription()))
-                    && validators.stream().anyMatch(x->x.validate(question))) {
+                    && validators.stream().anyMatch(x -> x.validate(question))) {
                 continue;
             }
             return false;
         }
         return true;
     }
-
-    public void show() {
-        System.out.println(steps.toString());
-    }
-
 
     public List<RecipeStep> getSteps() {
         return steps;
@@ -49,5 +44,16 @@ public class Recipe {
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    public void showSteps() {
+        System.out.println("Recipe:");
+        int i = 0, stepsSize = steps.size();
+
+        while (i < stepsSize) {
+            RecipeStep step = steps.get(i);
+            System.out.print("Step " + ++i + ") ");
+            step.show();
+        }
     }
 }

@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
 
-    {
-        recipeRepository = RecipeRepositoryImpl.getInstance();
+    public RecipeServiceImpl(RecipeRepository recipeRepository){
+        this.recipeRepository = recipeRepository;
     }
 
     @Override

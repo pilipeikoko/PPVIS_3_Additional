@@ -8,6 +8,5 @@ public class NavigateToAddProduct implements Command {
     @Override
     public void execute(MainFrame frame, UserContext context) {
         frame.showForAddProduct();
-     //   frame.showForMain();
     }
 }

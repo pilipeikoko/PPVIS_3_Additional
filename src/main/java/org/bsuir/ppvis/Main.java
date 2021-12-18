@@ -1,15 +1,22 @@
 package org.bsuir.ppvis;
 
 import org.bsuir.ppvis.controller.MainController;
+import org.bsuir.ppvis.factory.CommandFactory;
+import org.bsuir.ppvis.factory.impl.CommandFactoryImpl;
 import org.bsuir.ppvis.model.Product;
 import org.bsuir.ppvis.model.Recipe;
 import org.bsuir.ppvis.model.RecipeStep;
+import org.bsuir.ppvis.model.UserContext;
 import org.bsuir.ppvis.model.question.BaseQuestion;
 import org.bsuir.ppvis.model.question.impl.QuestionWithOneAnswer;
 import org.bsuir.ppvis.repository.QuestionRepository;
 import org.bsuir.ppvis.repository.RecipeRepository;
 import org.bsuir.ppvis.repository.impl.QuestionRepositoryImpl;
 import org.bsuir.ppvis.repository.impl.RecipeRepositoryImpl;
+import org.bsuir.ppvis.service.RecipeService;
+import org.bsuir.ppvis.service.impl.RecipeServiceImpl;
+import org.bsuir.ppvis.view.MainFrame;
+import org.bsuir.ppvis.view.impl.ConsoleMainFrame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +24,10 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        mockRepositories();
-
-        new MainController();
+        mockRepositoriesAndInject();
     }
 
-    private static void mockRepositories() {
+    private static void mockRepositoriesAndInject() {
         QuestionRepository questionRepository = QuestionRepositoryImpl.getInstance();
 
         List<BaseQuestion> newRecipeQuestions = new ArrayList<>();
@@ -34,8 +39,6 @@ public class Main {
         newRecipeQuestions.add(question2);
 
         questionRepository.setNewRecipeQuestions(newRecipeQuestions);
-
-
 
 
         RecipeRepository recipeRepository = RecipeRepositoryImpl.getInstance();
@@ -62,8 +65,14 @@ public class Main {
         recipes.add(firstRecipe);
 
         recipeRepository.setAllRecipes(recipes);
-    }
 
+        MainFrame frame = new ConsoleMainFrame();
+        UserContext context = new UserContext();
+        CommandFactory factory = new CommandFactoryImpl();
+        RecipeService service = new RecipeServiceImpl(recipeRepository);
+
+        new MainController(frame, context, factory, service);
+    }
 
 
 }

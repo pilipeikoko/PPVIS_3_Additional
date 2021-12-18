@@ -12,11 +12,12 @@ public class ConsoleMainFrame extends MainFrame {
 
     @Override
     public void showForNewRecipe(List<BaseQuestion> questions) {
-        for (BaseQuestion question : questions){
+        for (BaseQuestion question : questions) {
             question.ask();
         }
 
         setNewRecipeQuestions(questions);
+        setShouldShowMatchedReceipts(true);
     }
 
     @Override
@@ -24,18 +25,20 @@ public class ConsoleMainFrame extends MainFrame {
         System.out.println("1. New recipe");
         System.out.println("2. Continue current");
         System.out.println("3. Look all recipes");
-        System.out.println("4. Add product2");
+        System.out.println("4. Add product");
         Scanner scanner = new Scanner(System.in);
 
-        setMainActionType(Integer.parseInt(scanner.nextLine()));
+        int chosenNumber = scanner.nextInt();
+
+        handleMainAction(chosenNumber);
     }
 
     @Override
     public void showForListOfRecipes(List<Recipe> recipes) {
-        for(int i=0;i<recipes.size();++i){
+        for (int i = 0; i < recipes.size(); ++i) {
             Recipe recipe = recipes.get(i);
             System.out.print(i + ") ");
-            recipe.show();
+            recipe.showSteps();
             System.out.println();
         }
 
@@ -43,13 +46,14 @@ public class ConsoleMainFrame extends MainFrame {
         Scanner scanner = new Scanner(System.in);
 
         setListOfRecipesChosenRecipe(recipes.get(scanner.nextInt()));
+        setShouldShowCookingProcess(true);
     }
 
     @Override
     public void showForCookingProcess(Recipe recipe) {
         Scanner scanner = new Scanner(System.in);
-        for(RecipeStep step:recipe.getSteps()){
-            System.out.println(step.toString());
+        for (RecipeStep step : recipe.getSteps()) {
+            step.show();
             scanner.next();
         }
     }
@@ -62,6 +66,28 @@ public class ConsoleMainFrame extends MainFrame {
         setProductName(scanner.nextLine());
 
         System.out.println("amount : ");
+
         setProductAmount(scanner.nextInt());
+    }
+
+    protected void handleMainAction(int chosenNumber) {
+        switch (chosenNumber){
+            case 1:{
+                setShouldShowNewRecipeChoose(true);
+                break;
+            }
+            case 2:{
+                setShouldShowContinueCooking(true);
+                break;
+            }
+            case 3:{
+                setShouldShowListOfReceipts(true);
+                break;
+            }
+            case 4:{
+                setShouldShowNavigateToAddProduct(true);
+                break;
+            }
+        }
     }
 }

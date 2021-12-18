@@ -1,9 +1,16 @@
 package org.bsuir.ppvis.factory;
 
 import org.bsuir.ppvis.controller.command.Command;
+import org.bsuir.ppvis.service.RecipeService;
 
-import java.util.Map;
-
+//Abstract factory
 public interface CommandFactory {
-    Map<String, Command> create();
+    Command createAddProductCommand();
+    Command createNavigateToAddProductCommand();
+    Command createNavigateToListOfRecipesCommand(RecipeService recipeService);
+    Command createNavigateToCookingProcessCommand();
+    Command createNavigateToListOfMatchedRecipesCommand(RecipeService recipeService);
+    Command createNavigateToMainCommand();
+    Command createNavigateToNewRecipeCommand();
+    Command createNavigateToContinueCookingCommand();
 }

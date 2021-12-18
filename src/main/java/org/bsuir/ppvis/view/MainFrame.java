@@ -12,7 +12,13 @@ import java.util.List;
 public abstract class MainFrame implements MainFrameObservable {
     private final List<MainFrameObserver> observers;
 
-    private int mainActionType;
+    private boolean shouldShowNewRecipeChoose;
+    private boolean shouldShowContinueCooking;
+    private boolean shouldShowCookingProcess;
+    private boolean shouldShowListOfReceipts;
+    private boolean shouldShowNavigateToAddProduct;
+    private boolean shouldShowMatchedReceipts;
+
     private Recipe listOfRecipesChosenRecipe;
     private List<BaseQuestion> newRecipeQuestions;
     private String productName;
@@ -31,11 +37,6 @@ public abstract class MainFrame implements MainFrameObservable {
     public abstract void showForCookingProcess(Recipe recipe);
 
     public abstract void showForAddProduct();
-
-    public void setMainActionType(int mainActionType) {
-        this.mainActionType = mainActionType;
-        notifyObservers("mainActionType");
-    }
 
     public void setNewRecipeQuestions(List<BaseQuestion> newRecipeQuestions) {
         this.newRecipeQuestions = newRecipeQuestions;
@@ -57,12 +58,38 @@ public abstract class MainFrame implements MainFrameObservable {
         notifyObservers("productName");
     }
 
-    public Recipe getListOfRecipesChosenRecipe() {
-        return listOfRecipesChosenRecipe;
+    public void setShouldShowNewRecipeChoose(boolean shouldShowNewRecipeChoose) {
+        this.shouldShowNewRecipeChoose = shouldShowNewRecipeChoose;
+        notifyObservers("shouldShowNewRecipeChoose");
     }
 
-    public int getMainActionType() {
-        return mainActionType;
+    public void setShouldShowContinueCooking(boolean shouldShowContinueCooking) {
+        this.shouldShowContinueCooking = shouldShowContinueCooking;
+        notifyObservers("shouldShowContinueCooking");
+    }
+
+    public void setShouldShowCookingProcess(boolean shouldShowCookingProcess) {
+        this.shouldShowCookingProcess = shouldShowCookingProcess;
+        notifyObservers("shouldShowCookingProcess");
+    }
+
+    public void setShouldShowListOfReceipts(boolean shouldShowListOfReceipts) {
+        this.shouldShowListOfReceipts = shouldShowListOfReceipts;
+        notifyObservers("shouldShowListOfReceipts");
+    }
+
+    public void setShouldShowNavigateToAddProduct(boolean shouldShowNavigateToAddProduct) {
+        this.shouldShowNavigateToAddProduct = shouldShowNavigateToAddProduct;
+        notifyObservers("shouldShowNavigateToAddProduct");
+    }
+
+    public void setShouldShowMatchedReceipts(boolean shouldShowMatchedReceipts) {
+        this.shouldShowMatchedReceipts = shouldShowMatchedReceipts;
+        notifyObservers("shouldShowMatchedReceipts");
+    }
+
+    public Recipe getListOfRecipesChosenRecipe() {
+        return listOfRecipesChosenRecipe;
     }
 
     public List<BaseQuestion> getNewRecipeQuestions() {
@@ -76,6 +103,7 @@ public abstract class MainFrame implements MainFrameObservable {
     public int getProductAmount() {
         return productAmount;
     }
+
 
     @Override
     public void attach(MainFrameObserver mainObserver) {

@@ -4,7 +4,6 @@ import org.bsuir.ppvis.controller.command.Command;
 import org.bsuir.ppvis.model.Recipe;
 import org.bsuir.ppvis.model.UserContext;
 import org.bsuir.ppvis.service.RecipeService;
-import org.bsuir.ppvis.service.impl.RecipeServiceImpl;
 import org.bsuir.ppvis.view.MainFrame;
 
 import java.util.List;
@@ -12,8 +11,8 @@ import java.util.List;
 public class NavigateToListOfMatchedRecipes implements Command {
     private final RecipeService recipeService;
 
-    public NavigateToListOfMatchedRecipes() {
-        recipeService = new RecipeServiceImpl();
+    public NavigateToListOfMatchedRecipes(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
     @Override
