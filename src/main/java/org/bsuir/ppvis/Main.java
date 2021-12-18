@@ -3,10 +3,7 @@ package org.bsuir.ppvis;
 import org.bsuir.ppvis.controller.MainController;
 import org.bsuir.ppvis.factory.CommandFactory;
 import org.bsuir.ppvis.factory.impl.CommandFactoryImpl;
-import org.bsuir.ppvis.model.Product;
-import org.bsuir.ppvis.model.Recipe;
-import org.bsuir.ppvis.model.RecipeStep;
-import org.bsuir.ppvis.model.UserContext;
+import org.bsuir.ppvis.model.*;
 import org.bsuir.ppvis.model.question.BaseQuestion;
 import org.bsuir.ppvis.model.question.impl.QuestionWithOneAnswer;
 import org.bsuir.ppvis.repository.QuestionRepository;
@@ -68,6 +65,9 @@ public class Main {
 
         MainFrame frame = new ConsoleMainFrame();
         UserContext context = new UserContext();
+
+        context.setUser(new User());
+
         RecipeService service = new RecipeServiceImpl(recipeRepository);
         CommandFactory factory = new CommandFactoryImpl(service);
 

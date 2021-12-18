@@ -4,10 +4,6 @@ public class UserContext {
     private User user;
     private Recipe unfinishedRecipe;
 
-    {
-        user = new User();
-    }
-
     public User getUser() {
         return user;
     }
