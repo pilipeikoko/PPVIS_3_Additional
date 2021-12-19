@@ -1,5 +1,8 @@
 package org.bsuir.ppvis.service.impl;
 
+import org.bsuir.ppvis.model.AlergicUserContext;
+import org.bsuir.ppvis.model.User;
+import org.bsuir.ppvis.model.UserContext;
 import org.bsuir.ppvis.model.question.BaseQuestion;
 import org.bsuir.ppvis.repository.impl.RecipeRepositoryImpl;
 import org.bsuir.ppvis.service.RecipeService;
@@ -10,14 +13,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RecipeServiceImpl implements RecipeService {
-    private final RecipeRepository recipeRepository;
+    protected final RecipeRepository recipeRepository;
 
     public RecipeServiceImpl(RecipeRepository recipeRepository){
         this.recipeRepository = recipeRepository;
     }
 
     @Override
-    public List<Recipe> getSuitableRecipes(List<BaseQuestion> newRecipeQuestions) {
+    public List<Recipe> getSuitableRecipes(List<BaseQuestion> newRecipeQuestions, User user) {
         List<Recipe> allRecipes = recipeRepository.getAllRecipes();
 
         return allRecipes.stream().filter(x -> x.isMatch(newRecipeQuestions)).collect(Collectors.toList());

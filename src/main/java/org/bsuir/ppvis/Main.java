@@ -71,7 +71,7 @@ public class Main {
         RecipeService service = new RecipeServiceImpl(recipeRepository);
         CommandFactory factory = new CommandFactoryImpl(service);
 
-        new MainController(frame, context, factory);
+        new MainController(frame, context, factory).start();
     }
 
 

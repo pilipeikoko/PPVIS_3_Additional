@@ -5,15 +5,14 @@ import org.bsuir.ppvis.factory.CommandFactory;
 import org.bsuir.ppvis.model.UserContext;
 import org.bsuir.ppvis.observer.MainFrameEvent;
 import org.bsuir.ppvis.observer.MainFrameObserver;
-import org.bsuir.ppvis.service.RecipeService;
 import org.bsuir.ppvis.view.MainFrame;
 
 import java.util.Map;
 
 public class MainController implements MainFrameObserver {
-    private final Map<String, Command> commands;
-    private final MainFrame mainFrame;
-    private final UserContext userContext;
+    protected final Map<String, Command> commands;
+    protected final MainFrame mainFrame;
+    protected final UserContext userContext;
 
     public MainController(MainFrame mainFrame, UserContext context, CommandFactory commandFactory) {
         this.mainFrame = mainFrame;
@@ -21,7 +20,9 @@ public class MainController implements MainFrameObserver {
 
         this.userContext = context;
         this.commands = commandFactory.create();
+    }
 
+    public void start(){
         navigateToMain();
     }
 
@@ -63,11 +64,11 @@ public class MainController implements MainFrameObserver {
         }
     }
 
-    private void handleMatchedReceipts() {
+    protected void handleMatchedReceipts() {
         navigateToListOfMatchedReceipts();
     }
 
-    private void handleNavigateToAddProduct() {
+    protected void handleNavigateToAddProduct() {
         navigateToAddProduct();
     }
 
@@ -127,7 +128,7 @@ public class MainController implements MainFrameObserver {
         executeCommand(commands.get("NavigateToNewRecipe"));
     }
 
-    private void executeCommand(Command command) {
+    protected void executeCommand(Command command) {
         command.execute(mainFrame, userContext);
     }
 }
