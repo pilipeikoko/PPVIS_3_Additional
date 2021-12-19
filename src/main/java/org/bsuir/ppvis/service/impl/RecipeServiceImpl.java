@@ -1,10 +1,7 @@
 package org.bsuir.ppvis.service.impl;
 
-import org.bsuir.ppvis.model.AlergicUserContext;
 import org.bsuir.ppvis.model.User;
-import org.bsuir.ppvis.model.UserContext;
 import org.bsuir.ppvis.model.question.BaseQuestion;
-import org.bsuir.ppvis.repository.impl.RecipeRepositoryImpl;
 import org.bsuir.ppvis.service.RecipeService;
 import org.bsuir.ppvis.model.Recipe;
 import org.bsuir.ppvis.repository.RecipeRepository;
