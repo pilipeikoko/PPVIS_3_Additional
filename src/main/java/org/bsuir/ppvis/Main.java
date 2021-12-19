@@ -5,6 +5,7 @@ import org.bsuir.ppvis.factory.CommandFactory;
 import org.bsuir.ppvis.factory.impl.CommandFactoryImpl;
 import org.bsuir.ppvis.model.*;
 import org.bsuir.ppvis.model.question.BaseQuestion;
+import org.bsuir.ppvis.model.question.impl.QuestionWithNumericAnswer;
 import org.bsuir.ppvis.model.question.impl.QuestionWithOneAnswer;
 import org.bsuir.ppvis.repository.QuestionRepository;
 import org.bsuir.ppvis.repository.RecipeRepository;
@@ -31,9 +32,11 @@ public class Main {
 
         QuestionWithOneAnswer question1 = new QuestionWithOneAnswer("Breakfast, lunch or dinner?");
         QuestionWithOneAnswer question2 = new QuestionWithOneAnswer("Required product in recipe?");
+        QuestionWithNumericAnswer additional = new QuestionWithNumericAnswer("How many people?");
 
         newRecipeQuestions.add(question1);
         newRecipeQuestions.add(question2);
+        newRecipeQuestions.add(additional);
 
         questionRepository.setNewRecipeQuestions(newRecipeQuestions);
 
