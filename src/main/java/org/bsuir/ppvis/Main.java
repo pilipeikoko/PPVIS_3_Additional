@@ -1,8 +1,10 @@
 package org.bsuir.ppvis;
 
 import org.bsuir.ppvis.controller.MainController;
+import org.bsuir.ppvis.controller.MainControllerExtended;
 import org.bsuir.ppvis.factory.CommandFactory;
 import org.bsuir.ppvis.factory.impl.CommandFactoryImpl;
+import org.bsuir.ppvis.factory.impl.CommandFactoryImplExtended;
 import org.bsuir.ppvis.model.*;
 import org.bsuir.ppvis.model.question.BaseQuestion;
 import org.bsuir.ppvis.model.question.impl.QuestionWithOneAnswer;
@@ -12,8 +14,10 @@ import org.bsuir.ppvis.repository.impl.QuestionRepositoryImpl;
 import org.bsuir.ppvis.repository.impl.RecipeRepositoryImpl;
 import org.bsuir.ppvis.service.RecipeService;
 import org.bsuir.ppvis.service.impl.RecipeServiceImpl;
+import org.bsuir.ppvis.service.impl.RecipeServiceImplExtended;
 import org.bsuir.ppvis.view.MainFrame;
 import org.bsuir.ppvis.view.impl.ConsoleMainFrame;
+import org.bsuir.ppvis.view.impl.ConsoleMainFrameExtended;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,15 +67,15 @@ public class Main {
 
         recipeRepository.setAllRecipes(recipes);
 
-        MainFrame frame = new ConsoleMainFrame();
+        MainFrame frame = new ConsoleMainFrameExtended();
         UserContext context = new UserContext();
 
-        context.setUser(new User());
+        context.setUser(new ExtendedUser());
 
-        RecipeService service = new RecipeServiceImpl(recipeRepository);
-        CommandFactory factory = new CommandFactoryImpl(service);
+        RecipeService service = new RecipeServiceImplExtended(recipeRepository);
+        CommandFactory factory = new CommandFactoryImplExtended(service);
 
-        new MainController(frame, context, factory).start();
+        new MainControllerExtended(frame, context, factory).start();
     }
 
 
